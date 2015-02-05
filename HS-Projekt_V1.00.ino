@@ -34,7 +34,7 @@
  
  //Variablen
  char selected = '*';
-
+ int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
  
 
  //Tastatur
@@ -68,6 +68,8 @@ void setup() {
  lcd.begin(20,4);
  lcd.clear();
  //Startbildschirm
+ 
+ /*
  lcd.setCursor(0,0);
  lcd.print("Handtrainer         ");
  lcd.setCursor(0,1);
@@ -78,24 +80,25 @@ void setup() {
  lcd.print("s");  
  int count = 3;   //Anzeigezeit
  while(count>=0){
- lcd.setCursor(18,3);
- lcd.print(count);
- count--; 
- delay(1000); 
+   lcd.setCursor(18,3);
+   lcd.print(count);
+   count--; 
+   delay(1000); 
    }
-
+*/
  Serial.begin(9600);
 
 
 }
 
 void loop() {
-
+  battstate = battservice(2);
  switch(selected) {
   case '*':
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Fahren:             ");
+
   lcd.setCursor(0,3);
   lcd.print("Einstellungen #     ");
   break;
