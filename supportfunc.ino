@@ -2,7 +2,7 @@ int battservice (int tmpRow){
 
   int tempReadVolt = analogRead(BATT_SPG);
   float tempVolts = tempReadVolt * 5.0 / 1024.0*3  ; 
-  tempVolts = tempVolts - (tempVolts*0.01);              //Korrekturwert in %
+  tempVolts = tempVolts - (tempVolts*0.005);              //Korrekturwert in %
   lcd.setCursor(0, tmpRow);
   lcd.print("Spg:      V         ");
   lcd.setCursor(5, tmpRow);

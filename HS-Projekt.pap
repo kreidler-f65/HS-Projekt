@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="B24ECD2FA4AA1A00">
-  <PROJECT FORMAT="1.00" NAME="HS-Projekt" AUTHOR="Manuel Rude" CREATED="2015.02.05 12:37:42" MODIFIED="2015.02.05 12:37:42">
+<FRAME GUID="2FB25471-B62C-4EE6-BD43-F819C095ACF8" FORMAT="0000" APP_VERSION="2.2.0.8" CHECKSUM="0BC4AADF531CE8C2">
+  <PROJECT FORMAT="1.00" NAME="HS-Projekt" AUTHOR="Manuel Rude" CREATED="2015.02.05 12:37:42" MODIFIED="2015.02.05 20:52:28">
     <DIAGRAMS>
       <DIAGRAM FORMAT="1.00" ID="0" NAME="Hauptprogramm 1" CREATED="2015.02.05 12:37:54" MODIFIED="2015.02.05 12:37:54">
         <LAYOUT FORMAT="1.00" COLUMNS="1" ROWS="3">
@@ -24,6 +24,128 @@
         </LAYOUT>
         <CONNECTIONS>
           <CONNECTION FORMAT="1.00" ID="3" FROM="1" TO="2" TEXT="" />
+        </CONNECTIONS>
+      </DIAGRAM>
+      <DIAGRAM FORMAT="1.00" ID="1" NAME="battservice" CREATED="2015.02.05 20:26:51" MODIFIED="2015.02.05 20:26:51">
+        <LAYOUT FORMAT="1.00" COLUMNS="4" ROWS="10">
+          <ENTRIES>
+            <ENTRY COLUMN="0" ROW="1">
+              <FIGURE SUBTYPE="PapStart" FORMAT="1.00" ID="1">
+                <TEXT><![CDATA[Start]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="2">
+              <FIGURE SUBTYPE="PapInput" FORMAT="1.00" ID="4">
+                <TEXT><![CDATA[Analog-Input Spannung Batterie einlesen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="3">
+              <FIGURE SUBTYPE="PapActivity" FORMAT="1.00" ID="6">
+                <TEXT><![CDATA[Messwert in Spannung umrechnen]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="4">
+              <FIGURE SUBTYPE="PapOutput" FORMAT="1.00" ID="11">
+                <TEXT><![CDATA[Ausgabe von 
+"Spg: V "]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="5">
+              <FIGURE SUBTYPE="PapOutput" FORMAT="1.00" ID="15">
+                <TEXT><![CDATA[Ausgabe von 
+Messwert]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="6">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="17">
+                <TEXT><![CDATA[Spannung > 11,6 Volt]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="7">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="19">
+                <TEXT><![CDATA[11,6V > Spannung < 11,4V]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="0" ROW="8">
+              <FIGURE SUBTYPE="PapCondition" FORMAT="1.00" ID="21">
+                <TEXT><![CDATA[Spannung <11,4]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="0" ANCHOR="True">
+              <FIGURE SUBTYPE="PapTitle" FORMAT="1.00" ID="0">
+                <TEXT><![CDATA[battservice]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="1">
+              <FIGURE SUBTYPE="PapComment" FORMAT="1.00" ID="13">
+                <TEXT><![CDATA[Übergabe der Ausgabezeile]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="2">
+              <FIGURE SUBTYPE="PapComment" FORMAT="1.00" ID="14">
+                <TEXT><![CDATA[Spannung = Messwert * 5/1024 * 3
+* 3 wegen Spannungsteiler 2:1]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="6">
+              <FIGURE SUBTYPE="PapOutput" FORMAT="1.00" ID="35">
+                <TEXT><![CDATA[Ausgabe von "Voll"]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="7">
+              <FIGURE SUBTYPE="PapOutput" FORMAT="1.00" ID="36">
+                <TEXT><![CDATA[Ausgabe von "Laden"]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="1" ROW="8">
+              <FIGURE SUBTYPE="PapOutput" FORMAT="1.00" ID="37">
+                <TEXT><![CDATA[Ausgabe von "Leer"]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="6">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="45">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="7">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="43">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="8">
+              <FIGURE SUBTYPE="PapConnector" FORMAT="1.00" ID="41">
+                <TEXT><![CDATA[]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="2" ROW="9">
+              <FIGURE SUBTYPE="PapEnd" FORMAT="1.00" ID="2">
+                <TEXT><![CDATA[Ende]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+            <ENTRY COLUMN="3" ROW="9">
+              <FIGURE SUBTYPE="PapComment" FORMAT="1.00" ID="10">
+                <TEXT><![CDATA[Rückgabe des Ladezustandes]]></TEXT>
+              </FIGURE>
+            </ENTRY>
+          </ENTRIES>
+        </LAYOUT>
+        <CONNECTIONS>
+          <CONNECTION FORMAT="1.00" ID="28" FROM="1" TO="4" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="29" FROM="4" TO="6" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="30" FROM="6" TO="11" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="31" FROM="11" TO="15" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="32" FROM="15" TO="17" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="33" FROM="17" TO="19" TEXT="N" />
+          <CONNECTION FORMAT="1.00" ID="34" FROM="19" TO="21" TEXT="N" />
+          <CONNECTION FORMAT="1.00" ID="38" FROM="17" TO="35" TEXT="J" />
+          <CONNECTION FORMAT="1.00" ID="39" FROM="19" TO="36" TEXT="J" />
+          <CONNECTION FORMAT="1.00" ID="40" FROM="21" TO="37" TEXT="J" />
+          <CONNECTION FORMAT="1.00" ID="42" FROM="37" TO="41" TEXT="Return 0" />
+          <CONNECTION FORMAT="1.00" ID="44" FROM="36" TO="43" TEXT="Return 1" />
+          <CONNECTION FORMAT="1.00" ID="46" FROM="35" TO="45" TEXT="Return 2" />
+          <CONNECTION FORMAT="1.00" ID="47" FROM="45" TO="43" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="48" FROM="43" TO="41" TEXT="" />
+          <CONNECTION FORMAT="1.00" ID="50" FROM="41" TO="2" TEXT="" />
         </CONNECTIONS>
       </DIAGRAM>
     </DIAGRAMS>
