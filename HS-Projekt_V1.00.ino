@@ -1,3 +1,4 @@
+#include <PinChangeInt.h>
 #include <EEPROM.h>
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
@@ -17,8 +18,8 @@
  const int TAST7 = 35;
  const int TAST8 = 37;
  
- const int VOB = 39;
- const int VOA = 42;
+ const int VOB = 14;
+ const int VOA = 15;
  
  const int M_FORCE = 8;
  
@@ -35,8 +36,8 @@
  //Variablen
  char selected = '*';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
- 
-
+ int Speed = 0;
+ int RotateSpeedCount = 0;
  //Tastatur
 
 const byte ROWS = 4; //four rows
@@ -63,42 +64,50 @@ LiquidCrystal_I2C lcd(0x3F,20,4);  // set the LCD address to 0x27 for a 20 chars
 
 void setup() {
   
- lcd.init(); 
- lcd.backlight();
- lcd.begin(20,4);
- lcd.clear();
- //Startbildschirm
- 
- /*
- lcd.setCursor(0,0);
- lcd.print("Handtrainer         ");
- lcd.setCursor(0,1);
- lcd.print("Version 1.00        ");
- lcd.setCursor(0,2);
- lcd.print("Manuel Rude         "); 
- lcd.setCursor(19,3);
- lcd.print("s");  
- int count = 3;   //Anzeigezeit
- while(count>=0){
-   lcd.setCursor(18,3);
-   lcd.print(count);
-   count--; 
-   delay(1000); 
-   }
-*/
- Serial.begin(9600);
-
-
+  pinMode(VOA,INPUT);
+  pinMode(VOB,INPUT); 
+   
+  lcd.init(); 
+  lcd.backlight();
+  lcd.begin(20,4);
+  lcd.clear();
+  //Startbildschirm
+  
+  /*
+  lcd.setCursor(0,0);
+  lcd.print("Handtrainer         ");
+  lcd.setCursor(0,1);
+  lcd.print("Version 1.00        ");
+  lcd.setCursor(0,2);
+  lcd.print("Manuel Rude         "); 
+  lcd.setCursor(19,3);
+  lcd.print("s");  
+  int count = 3;   //Anzeigezeit
+  while(count>=0){
+    lcd.setCursor(18,3);
+    lcd.print(count);
+    count--; 
+    delay(1000); 
+    }
+  */
+  Serial.begin(9600);
 }
 
 void loop() {
   battstate = battservice(2);
+  Speed = RotationSpeed();
+  lcd.setCursor(0,1);
+  lcd.print("Speed:    rpm     ");
+  lcd.setCursor(7,1);
+  lcd.print(Speed);
+  lcd.setCursor(15,1);
+  lcd.print(RotateSpeedCount);
+  
  switch(selected) {
   case '*':
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Fahren:             ");
-
   lcd.setCursor(0,3);
   lcd.print("Einstellungen #     ");
   break;
