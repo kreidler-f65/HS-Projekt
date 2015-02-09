@@ -66,6 +66,10 @@ void setup() {
   
   pinMode(VOA,INPUT);
   pinMode(VOB,INPUT); 
+  pinMode(SD_B,OUTPUT);
+  pinMode(IN_B,OUTPUT);
+  pinMode(SD_A,OUTPUT);
+  pinMode(IN_A,OUTPUT);
    
   lcd.init(); 
   lcd.backlight();
@@ -94,10 +98,29 @@ void setup() {
 }
 
 void loop() {
-  battstate = battservice(2);
-  Speed = RotationSpeed();
+//  battstate = battservice(2);
+//  Speed = RotationSpeed();
+// for(int i = 0; i<=255; i++){
+//  DriveFor(i);
+//  delay(50);
+//   }
+// for(int i = 255; i>=0; i--){
+//  DriveFor(i);
+//  delay(50);
+//   }
+// for(int i = 0; i<=255; i++){
+//  DriveBack(i);
+//  delay(50);
+//   }
+// for(int i = 255; i>=0; i--){
+//  DriveBack(i);
+//  delay(50);
+//   }
+//  DriveBack(200);
+//  delay(1000);
+RotationCurrent();
   lcd.setCursor(0,1);
-  lcd.print("Speed:    rpm     ");
+  lcd.print("Speed:    rps     ");
   lcd.setCursor(7,1);
   lcd.print(Speed);
   lcd.setCursor(15,1);
@@ -122,7 +145,7 @@ void loop() {
   } 
 
 selected = customKeypad.getKey();
-delay(250);
+delay(500);
   
 
 }
