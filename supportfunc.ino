@@ -23,25 +23,44 @@ int battservice (int tmpRow){
 }
 
 
-int RotationSpeed (){
-  RotateSpeedCount = 0;
-  PCintPort::attachInterrupt(VOB,RotationCount,RISING );  //Interupt von VOA aktivieren                                       
-  delay(500);                                             //Warten
-  PCintPort::detachInterrupt(VOB);                        //Interupt von VOA deaktivieren 
-  int rps = 0;
-  rps = (RotateSpeedCount/(0.5*120));                    //berechnung Drehzahl in Umdrehungen pro Minute
+unsigned long RotationSpeed (){
+  PCintPort::attachInterrupt(VOA,RotationCountStart,RISING );  //Interupt von VOA aktivieren                                       
+  PCintPort::detachInterrupt(VOA);                        //Interupt von VOA deaktivieren 
+  PCintPort::attachInterrupt(VOA,RotationCountStop,RISING );  //Interupt von VOA aktivieren 
+  PCintPort::detachInterrupt(VOA);                        //Interupt von VOA deaktivieren 
+  unsigned long rps = 0;
+  unsigned long tmptime=0;
+  tmptime = stoptime-starttime;
+  rps = (1/(120*tmptime*0.001));                    //berechnung Drehzahl in Umdrehungen pro Minute
+  Serial.print("  tmptime = " ); // shows pre-scaled value 
+  Serial.print(tmptime); 
+  Serial.print("  rps= " ); // shows pre-scaled value 
+  Serial.print(rps);
+  Serial.print("  stoptime = " ); // shows pre-scaled value 
+  Serial.print(stoptime); 
+  Serial.print("  starttime= " ); // shows pre-scaled value 
+  Serial.print(starttime);
   return rps;
   }
 
 
-void RotationCount (){
-  RotateSpeedCount++;
+void RotationCountStart (){
+   Serial.print("  RotationCountStart  " ); // shows pre-scaled value 
+  starttime=millis();
+  return;
   }
+
+void RotationCountStop (){
+   Serial.print("  RotationCountStop  " ); // shows pre-scaled value 
+  stoptime=millis();
+  return;
+  }
+
  
  void RotationCurrent (){
    
 pinMode(M_FORCE,OUTPUT);
-digitalWrite(M_FORCE, HIGH);
+analogWrite(M_FORCE, 50);
 
 int mVperAmp = 185; // use 100 for 20A Module and 66 for 30A Module
 int RawValue= 0;
@@ -60,12 +79,12 @@ for(i=0; i<=20; i++){
  Amps = ((Voltage - ACSoffset) / mVperAmp);
  
  
- Serial.print("Raw Value = " ); // shows pre-scaled value 
- Serial.print(RawValue); 
- Serial.print("\t mV = "); // shows the voltage measured 
- Serial.print(Voltage,3); // the '3' after voltage allows you to display 3 digits after decimal point
- Serial.print("\t Amps = "); // shows the voltage measured 
- Serial.println(Amps,3); // the '3' after voltage allows you to display 3 digits after decimal point
+// Serial.print("Raw Value = " ); // shows pre-scaled value 
+// Serial.print(RawValue); 
+// Serial.print("\t mV = "); // shows the voltage measured 
+// Serial.print(Voltage,3); // the '3' after voltage allows you to display 3 digits after decimal point
+
+// Serial.println(Amps,3); // the '3' after voltage allows you to display 3 digits after decimal point
  return;  
    }
   

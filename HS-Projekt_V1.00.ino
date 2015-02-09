@@ -36,8 +36,9 @@
  //Variablen
  char selected = '*';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
- int Speed = 0;
- int RotateSpeedCount = 0;
+ unsigned long Speed = 0;
+ unsigned long starttime;
+ unsigned long stoptime;
  //Tastatur
 
 const byte ROWS = 4; //four rows
@@ -99,7 +100,7 @@ void setup() {
 
 void loop() {
 //  battstate = battservice(2);
-//  Speed = RotationSpeed();
+  Speed = RotationSpeed();
 // for(int i = 0; i<=255; i++){
 //  DriveFor(i);
 //  delay(50);
@@ -124,7 +125,7 @@ RotationCurrent();
   lcd.setCursor(7,1);
   lcd.print(Speed);
   lcd.setCursor(15,1);
-  lcd.print(RotateSpeedCount);
+  lcd.print(Speed);
   
  switch(selected) {
   case '*':
@@ -146,6 +147,7 @@ RotationCurrent();
 
 selected = customKeypad.getKey();
 delay(500);
+Serial.print("\n"); // new line
   
 
 }
