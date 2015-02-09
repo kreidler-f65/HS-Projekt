@@ -102,6 +102,8 @@ void setup() {
 
 void loop() {
 //  battstate = battservice(2);
+ pinMode(M_FORCE,OUTPUT);
+  analogWrite(M_FORCE, 50);
   Speed = RotationSpeed();
 // for(int i = 0; i<=255; i++){
 //  DriveFor(i);
