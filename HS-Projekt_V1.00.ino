@@ -37,7 +37,7 @@
  char selected = '*';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
  int Speed = 0;
- int RotateSpeedCount = 0;
+
  //Tastatur
 
 const byte ROWS = 4; //four rows
@@ -100,8 +100,7 @@ void loop() {
   lcd.print("Speed:    rpm     ");
   lcd.setCursor(7,1);
   lcd.print(Speed);
-  lcd.setCursor(15,1);
-  lcd.print(RotateSpeedCount);
+
   
  switch(selected) {
   case '*':

@@ -24,18 +24,10 @@ int battservice (int tmpRow){
 
 
 int RotationSpeed (){
-  RotateSpeedCount = 0;
-  PCintPort::attachInterrupt(VOB,RotationCount,RISING );  //Interupt von VOA aktivieren                                       
-  delay(250);                                             //Warten
-  PCintPort::detachInterrupt(VOB);                        //Interupt von VOA deaktivieren 
+  unsigned long RotateTime = 0;
+  RotateTime = (pulseIn(VOB, HIGH) + pulseIn(VOB, LOW))*120;
   int rpm = 0;
-  rpm = (RotateSpeedCount/(0.25*120))*60;                    //berechnung Drehzahl in Umdrehungen pro Minute
+  rpm = (1/(RotateTime*0.000001))*60;                    //berechnung Drehzahl in Umdrehungen pro Minute
   return rpm;
   }
 
-
-void RotationCount (){
-  RotateSpeedCount++;
-  }
-  
-  
