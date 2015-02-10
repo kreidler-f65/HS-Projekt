@@ -7,8 +7,9 @@
 
  //Pins setup
  //Analog
- const int STROM_MESS = 0;
+ const int VREF = 0;
  const int BATT_SPG = 1;
+ const int STROM_MESS = 2;
  //Digital
  const int TAST1 = 23;
  const int TAST2 = 25;
@@ -23,6 +24,7 @@
  const int VOA = 15;
  
  const int M_FORCE = 8;
+ const int M_FORCE_control = 9;
  
  const int SD_B = 7;
  const int IN_B = 6;
@@ -36,7 +38,7 @@
  const int Funk2 = 3;
  const int Funk1 = 19;
  const int Funk3 = 18;
- 
+
  
  //Variablen
  char selected = '*';
@@ -84,20 +86,21 @@ void setup() {
   pinMode(IN_B,OUTPUT);
   pinMode(SD_A,OUTPUT);
   pinMode(IN_A,OUTPUT);
-   
+  pinMode(M_FORCE_control,INPUT);
+  
   lcd.init(); 
   lcd.backlight();
   lcd.begin(20,4);
   lcd.clear();
 //bootscreen(3);              //Übergabe der Anzeigezeit in sek.
   Serial.begin(9600);
+ pinMode(M_FORCE,OUTPUT);
+ digitalWrite(M_FORCE, HIGH);
 }
 
 void loop() {
 //  battstate = battservice(2);
- pinMode(M_FORCE,OUTPUT);
-  analogWrite(M_FORCE, 100);
-  Speed = RotationSpeed();
+
 // for(int i = 0; i<=255; i++){
 //  DriveFor(i);
 //  delay(50);
@@ -116,7 +119,7 @@ void loop() {
 //   }
 //  DriveBack(200);
 //  delay(1000);
-//RotationCurrent();
+ ;
 
   attachInterrupt(Funk3_int, EmergBreak, RISING);
   attachInterrupt(Funk4_int, EmergRoll, RISING);
@@ -126,7 +129,11 @@ void loop() {
   lcd.setCursor(0,1);
   lcd.print("Speed:    rpm     ");
   lcd.setCursor(7,1);
-  lcd.print(Speed);
+  lcd.print(RotationSpeed());
+  lcd.setCursor(0,2);
+  lcd.print("Strom:       A     ");
+  lcd.setCursor(7,2);
+  lcd.print(RotationCurrent());
   
  switch(selected) {
   case '*':
