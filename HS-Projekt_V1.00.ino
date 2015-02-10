@@ -3,6 +3,7 @@
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
+#include <math.h>
 
  //Pins setup
  //Analog
@@ -27,10 +28,14 @@
  const int IN_B = 6;
  const int SD_A = 5;
  const int IN_A = 4;
- const int INTER0 = 2;
- const int INTER1 = 3;
- const int INTER4 = 19;
- const int INTER5 = 18;
+ const int Funk4_int = 0;
+ const int Funk2_int = 1;
+ const int Funk1_int = 4;
+ const int Funk3_int = 5;
+ const int Funk4 = 2;
+ const int Funk2 = 3;
+ const int Funk1 = 19;
+ const int Funk3 = 18;
  
  
  //Variablen
@@ -39,6 +44,12 @@
  int Speed = 0;
  unsigned long starttime;
  unsigned long stoptime;
+ 
+ bool drivefor = false;
+ bool driveback = false;
+ bool brake = false;
+ bool roll = false;
+ 
  
  
  //Tastatur
@@ -78,32 +89,14 @@ void setup() {
   lcd.backlight();
   lcd.begin(20,4);
   lcd.clear();
-  //Startbildschirm
-  
-  /*
-  lcd.setCursor(0,0);
-  lcd.print("Handtrainer         ");
-  lcd.setCursor(0,1);
-  lcd.print("Version 1.00        ");
-  lcd.setCursor(0,2);
-  lcd.print("Manuel Rude         "); 
-  lcd.setCursor(19,3);
-  lcd.print("s");  
-  int count = 3;   //Anzeigezeit
-  while(count>=0){
-    lcd.setCursor(18,3);
-    lcd.print(count);
-    count--; 
-    delay(1000); 
-    }
-  */
+//bootscreen(3);              //Übergabe der Anzeigezeit in sek.
   Serial.begin(9600);
 }
 
 void loop() {
 //  battstate = battservice(2);
  pinMode(M_FORCE,OUTPUT);
-  analogWrite(M_FORCE, 50);
+  analogWrite(M_FORCE, 100);
   Speed = RotationSpeed();
 // for(int i = 0; i<=255; i++){
 //  DriveFor(i);
@@ -124,6 +117,12 @@ void loop() {
 //  DriveBack(200);
 //  delay(1000);
 //RotationCurrent();
+
+  attachInterrupt(Funk3_int, EmergBreak, RISING);
+  attachInterrupt(Funk4_int, EmergRoll, RISING);
+  attachInterrupt(Funk1_int, EmergDrivFor, RISING);
+  attachInterrupt(Funk2_int, EmergDrivBack, RISING);
+  
   lcd.setCursor(0,1);
   lcd.print("Speed:    rpm     ");
   lcd.setCursor(7,1);
@@ -131,7 +130,7 @@ void loop() {
   
  switch(selected) {
   case '*':
-  lcd.clear();
+//  lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Fahren:             ");
   lcd.setCursor(0,3);
@@ -139,7 +138,7 @@ void loop() {
   break;
   
   case '#':
-  lcd.clear();
+//  lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Einstellungen:             ");
   lcd.setCursor(0,3);
