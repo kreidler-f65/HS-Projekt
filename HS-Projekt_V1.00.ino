@@ -103,15 +103,16 @@ void setup() {
 }
 
 void loop() {
-//  battstate = battservice(2);
+  battstate = battservice(1);
 
-
+  Serial.print("\t Dreh: ");
+  Serial.print(rotating_direction());
 
   
-  lcd.setCursor(0,1);
-  lcd.print("Speed:    rpm     ");
-  lcd.setCursor(7,1);
-  lcd.print(RotationSpeed());
+//  lcd.setCursor(0,1);
+//  lcd.print("Speed:    rpm     ");
+//  lcd.setCursor(7,1);
+//  lcd.print(RotationSpeed());
   lcd.setCursor(0,2);
   lcd.print("Strom:       A     ");
   lcd.setCursor(7,2);
@@ -136,7 +137,7 @@ void loop() {
   } 
 
 selected = customKeypad.getKey();
-delay(500);
+delay(200);
 Serial.print("\n"); // new line
   
 
