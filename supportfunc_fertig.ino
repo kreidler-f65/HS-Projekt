@@ -4,7 +4,7 @@
 
 double measuringVcc(){
   double Vcc;
-  Vcc=2.5/analogRead(VREF)*1023;
+  Vcc=2500/analogRead(VREF)*1023;
   return Vcc;
   }
 
@@ -38,16 +38,13 @@ int battservice (int tmpRow){
 //********************************************************************************************************************************************************************************
 //Rückgabe der aktuellen Drehzahl in Umdrehungen/Minute der Kurbel
 //********************************************************************************************************************************************************************************
-int RotationSpeed (){
-//  bool M_Force_high = false;
-//  while(M_Force_high==false){
-//    if(digitalRead(M_FORCE_control)==HIGH){
-      unsigned long RotateTime = (pulseIn(VOB, HIGH) + pulseIn(VOB, LOW))*120;
-//      M_Force_high=true;
-      int rpm = (1/(RotateTime*0.000001))*60;                    //berechnung Drehzahl in Umdrehungen pro Minute
+unsigned long RotationSpeed (){
+      digitalWrite(M_FORCE, LOW);                                          //definierte Kraft auf dem Motor
+      unsigned long RotateTime = ((pulseIn(VOB, HIGH) + pulseIn(VOB, LOW))*120;
+      analogWrite(M_FORCE, Speed);                                         //Rückschalten auf eingestellte Kraft
+
+      unsigned long rpm = (1/(RotateTime*0.000001))*60;                    //berechnung Drehzahl in Umdrehungen pro Minute
       return rpm;
- //     }
-//    }
   }
 
 
@@ -56,30 +53,33 @@ int RotationSpeed (){
 //********************************************************************************************************************************************************************************
   
 double RotationCurrent (){
-  bool M_Force_high = false;
   int mVperAmp = 185; 
-  int measuredvalue= 0;
+  int measuredvalue= measuringVcc()/2;
   int ACSoffset; 
   double Voltage = 0;
   double Amps = 0;
   int tmpValue = 0;
-  ACSoffset=measuringVcc()/2;
-//  while(M_Force_high==false){
-//    if(digitalRead(M_FORCE_control)== HIGH){
-    M_Force_high=true;
-    int i;
-    for(i = 0; i<=10; i++){                                          //10 Messwerte bestimmen und aufsummieren
-      tmpValue = tmpValue + analogRead(STROM_MESS);
-      }
-    measuredvalue=tmpValue/i;                                        //Mittelwert bestimmen   
-    Voltage = measuredvalue * measuringVcc() / 1023 ;           //gemessene Spannung bestimmen
-    Amps = ((Voltage - ACSoffset) / mVperAmp);                     //Strom ausrechnen
-    Serial.print("Volt: ");
-    Serial.print(Voltage);
-    return Amps;
-//    } 
- // }
+  
+  int M_FORCE_control_old = digitalRead(M_FORCE_control);
+  while(1){                                                                  //Warten auf steigende Flanke
+    if(M_FORCE_control_old==0 && digitalRead(M_FORCE_control)==1){
+      break;
+      }    
+    M_FORCE_control_old = digitalRead(M_FORCE_control);
+    }
 
+  int i;
+  for(i = 0; i<=5; i++){                                          //10 Messwerte bestimmen und aufsummieren
+    tmpValue = tmpValue + analogRead(STROM_MESS);
+    }
+  measuredvalue=tmpValue/i;                                        //Mittelwert bestimmen   
+  Voltage = measuredvalue * measuringVcc() / 1023 ;           //gemessene Spannung bestimmen
+  Amps = ((Voltage - ACSoffset) / mVperAmp);                     //Strom ausrechnen
+  Serial.print("mVolt: ");
+  Serial.print(Voltage);
+  Serial.print("\t messuredVcc: ");
+  Serial.print(measuringVcc());
+  return Amps;
 }
 
 

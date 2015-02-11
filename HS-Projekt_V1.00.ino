@@ -3,7 +3,6 @@
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
-#include <math.h>
 
  //Pins setup
  //Analog
@@ -43,7 +42,7 @@
  //Variablen
  char selected = '*';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
- int Speed = 0;
+ int Speed = 100;
  unsigned long starttime;
  unsigned long stoptime;
  
@@ -78,6 +77,7 @@ LiquidCrystal_I2C lcd(0x3F,20,4);  // set the LCD address to 0x27 for a 20 chars
 
 //lcd.print("                    ");
 
+
 void setup() {
   
   pinMode(VOA,INPUT);
@@ -95,36 +95,18 @@ void setup() {
 //bootscreen(3);              //Übergabe der Anzeigezeit in sek.
   Serial.begin(9600);
  pinMode(M_FORCE,OUTPUT);
- digitalWrite(M_FORCE, HIGH);
+ analogWrite(M_FORCE, Speed);
+  attachInterrupt(Funk3_int, EmergBreak, RISING);
+  attachInterrupt(Funk4_int, EmergRoll, RISING);
+  attachInterrupt(Funk1_int, EmergDrivFor, RISING);
+  attachInterrupt(Funk2_int, EmergDrivBack, RISING);
 }
 
 void loop() {
 //  battstate = battservice(2);
 
-// for(int i = 0; i<=255; i++){
-//  DriveFor(i);
-//  delay(50);
-//   }
-// for(int i = 255; i>=0; i--){
-//  DriveFor(i);
-//  delay(50);
-//   }
-// for(int i = 0; i<=255; i++){
-//  DriveBack(i);
-//  delay(50);
-//   }
-// for(int i = 255; i>=0; i--){
-//  DriveBack(i);
-//  delay(50);
-//   }
-//  DriveBack(200);
-//  delay(1000);
- ;
 
-  attachInterrupt(Funk3_int, EmergBreak, RISING);
-  attachInterrupt(Funk4_int, EmergRoll, RISING);
-  attachInterrupt(Funk1_int, EmergDrivFor, RISING);
-  attachInterrupt(Funk2_int, EmergDrivBack, RISING);
+
   
   lcd.setCursor(0,1);
   lcd.print("Speed:    rpm     ");
