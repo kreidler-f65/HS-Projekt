@@ -36,7 +36,7 @@ void Break (){
   digitalWrite(IN_A, LOW);
   digitalWrite(IN_B, LOW);
   digitalWrite(SD_B, LOW);
-  delay(500);
+  delay(200);
   digitalWrite(SD_A, HIGH);            //Bremsen Maximal
   digitalWrite(IN_A, LOW);
   digitalWrite(IN_B, LOW);

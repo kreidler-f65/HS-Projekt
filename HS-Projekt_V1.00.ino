@@ -92,8 +92,8 @@ void setup() {
   lcd.clear();
 //bootscreen(3);              //Übergabe der Anzeigezeit in sek.
   Serial.begin(9600);
- pinMode(M_FORCE,OUTPUT);
- analogWrite(M_FORCE, Speed);
+  pinMode(M_FORCE,OUTPUT);
+  analogWrite(M_FORCE, Speed);
   attachInterrupt(Funk3_int, EmergBreak, RISING);
   attachInterrupt(Funk4_int, EmergRoll, RISING);
   attachInterrupt(Funk1_int, EmergDrivFor, RISING);
@@ -101,52 +101,68 @@ void setup() {
 }
 
 void loop() {
+   Serial.print("\t selected Vor: ");
+ Serial.print(selected); 
   
   switch(selected) {
+    
   case '*':
-  
-  lcd.setCursor(0,0);
-  lcd.print("drive:              ");
-  lcd.setCursor(0,1);
-  lcd.print("                    ");
-  lcd.setCursor(0,2);
-  lcd.print("                    ");
-  lcd.setCursor(0,3);
-  lcd.print("Setup press #       ");
-  
-  break;
+    lcd.setCursor(0,0);
+    lcd.print("drive:              ");
+    lcd.setCursor(0,1);
+    lcd.print("                    ");
+    lcd.setCursor(0,2);
+    lcd.print("                    ");
+    lcd.setCursor(0,3);
+    lcd.print("Setup press #       ");
+    break;
   
   case '#':
-  lcd.setCursor(0,0);
-  lcd.print("Setup:              ");
-  lcd.setCursor(0,2);
-  lcd.print("Enter Setup press D ");
-  lcd.setCursor(0,3);
-  lcd.print("drive press *       ");
-  Serial.println("\t enterKey: ");
-  Serial.println(enterKey);
-  enterKey = customKeypad.getKey();
-  Serial.println("\t enterKey: ");
-  Serial.println(enterKey);
-  if(enterKey=='D'){
-    setupMenu();
-    }
-  break;
+    lcd.setCursor(0,0);
+    lcd.print("Setup:              ");
+    lcd.setCursor(0,2);
+    lcd.print("Enter Setup press D ");
+    lcd.setCursor(0,3);
+    lcd.print("drive press *       ");
+    Serial.print("\t enterKey: ");
+    Serial.print(enterKey);
+    enterKey = customKeypad.waitForKey();
+    Serial.print("\t enterKey: ");
+    Serial.print(enterKey);
+    if(enterKey=='D'){
+      setupMenu();
+      }
+    if(enterKey=='*'){
+      selected = '*';
+      }
+//    if(customKeypad.getState()==PRESSED){
+//    while(customKeypad.getState()==PRESSED){
+//         Serial.println("\t Status: ");
+//    Serial.println(customKeypad.getState());
+//    } 
+    
+//    }
+//    else{
+//      selected = enterKey;
+//      }
+    break;
   } 
 char oldselected = selected;
+//selected = customKeypad.waitForKey();
+
 selected = customKeypad.getKey();
- Serial.println("\t selected: ");
- Serial.println(selected); 
-if(selected != 'A' && selected != 'B' && selected != 'C' && selected != 'D' && selected != '*' && selected != '#' && selected != '0' && selected != '1' && selected != '2' && selected != '3' && selected != '4' && selected != '5' && selected != '6' && selected != '7' && selected != '8' && selected != '9')
+//  while(customKeypad.getState()==PRESSED){}
+Serial.println("\t selected: ");
+Serial.println(selected); 
+if(selected != '*' && selected != '#')
  {
  selected=oldselected;
  }
- Serial.println("\t selected: ");
- Serial.println(selected); 
-  Serial.println("\t oldselected: ");
- Serial.println(oldselected); 
-delay(200);
+ Serial.print("\t selected: ");
+ Serial.print(selected); 
+  Serial.print("\t oldselected: ");
+ Serial.print(oldselected); 
 Serial.print("\n"); // new line
-  
+
 
 }

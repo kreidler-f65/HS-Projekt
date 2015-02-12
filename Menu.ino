@@ -2,10 +2,13 @@
 //Einstellungs Menü
 //**********************************************************************************************************************************************************************************
 void setupMenu(){
+  Break();
+  nointerrupts();
   int maxMenu=5;                                   //Maximale Menü Einträge
   int Count = 1;
   char tmpKey;
   char tmpKeyA;
+  char tmpKeyB;
   lcd.setCursor(0,3);
   lcd.print("left: *    right: # ");
   while (1){
@@ -15,7 +18,11 @@ void setupMenu(){
     else if (Count>maxMenu){
       Count=1;
       }
+//   tmpKey = customKeypad.waitForKey();
    tmpKey = customKeypad.getKey();
+//   if(tmpKeyB){
+//     tmpKey = tmpKeyB;
+//     }
     switch(tmpKey){
       case '*':
         Count--;
@@ -23,7 +30,14 @@ void setupMenu(){
       case '#':
         Count++;
         break;
+      default: break;
       }
+//    Serial.print("\n Count: ");
+//    Serial.print(Count);
+//    Serial.print("\t tmpKey: ");
+//    Serial.print(tmpKey);
+//    Serial.print("\t tmpKeyA: ");
+//    Serial.print(tmpKeyA);
     switch(Count){
       case 1:
         lcd.setCursor(0,2);
@@ -49,11 +63,30 @@ void setupMenu(){
         lcd.setCursor(0,2);
         lcd.print("Back press A        ");
         tmpKeyA = customKeypad.getKey();
-        if(tmpKeyA=='A'){
-           return;
+        if(tmpKeyA == 'A'){
+          interrupts(); 
+          return;
            }
+        else if(tmpKeyA == '*'){
+            Count--;
+            }
+        else if(tmpKeyA == '#'){
+            Count++;
+            }
+  
+
+//          else {
+//            tmpKey = tmpKeyA;
+//                Serial.print("\t tmpKey1: ");
+//      Serial.print(tmpKey);
+//      Serial.print("\t tmpKeyA1: ");
+//      Serial.print(tmpKeyA);
+//            }   
+//          
+           
         break;
-      }    
+      } 
+ //  delay(500);   
     }
 
  }
