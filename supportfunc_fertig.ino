@@ -77,12 +77,17 @@ double RotationCurrent (){
       }    
     M_FORCE_control_old = digitalRead(M_FORCE_control);
     }
-
   int i;
-  for(i = 0; i<=10; i++){                                          //10 Messwerte bestimmen und aufsummieren
-    tmpValue = tmpValue + analogRead(STROM_MESS);
-    }
-  measuredvalue=(tmpValue/i)+3;                                        //Mittelwert bestimmen   
+  int x;
+  for(x=0; x<=4; x++){
+    digitalWrite(M_FORCE, HIGH); 
+    for(i = 0; i<=19; i++){                                          //100 Messwerte bestimmen und aufsummieren
+      tmpValue = tmpValue + analogRead(STROM_MESS);
+      }
+    analogWrite(M_FORCE, Speed);
+    delay(10);
+  }
+  measuredvalue=(tmpValue/100)+2;                                        //Mittelwert bestimmen   +2 Digits korrektur
   Voltage = measuredvalue * Vcc / 1023 ;           //gemessene Spannung bestimmen
   Amps = ((Voltage - ACSoffset) / mVperAmp);                     //Strom ausrechnen
 //  Serial.print("\t mVolt: ");
@@ -115,64 +120,55 @@ void bootscreen (int showtime){                               //Übergabe der An
     }
   }
   
+
 //********************************************************************************************************************************************************************************
 //Drehrichtung ermitteln   
 //1=rechtsdrehen
 //2=Linksdrehend
+//-1 = Fehler
 //********************************************************************************************************************************************************************************
 
 int rotating_direction(){
   unsigned long time = millis();
-  int oldVOB = digitalRead(VOB);
-  int tmpVOB;
-  int buffVOA[4] = {0, 0, 0, 0};
-  int i;
-  int x;
-  int a;
-  for(a=0; a<=1; a++){
-    for(i=3; i>=0; i--){
-      x=i-1;
-      if(i>0){
-        buffVOA[i]= buffVOA[x];
-        }
-      if(i==0){
-        buffVOA[0]=digitalRead(VOA);
-        }
-      }
-    }   
+  tmpdirection = -1;
+  attachPinChangeInterrupt(VOA, ISR_rotating_direction, RISING);      //Interrupt VOA aktivieren
   
-  
-  while(1){                                                                  //Warten auf steigende Flanke
-          Serial.print("\t [0]: ");
-  Serial.print(buffVOA[0]);
-        Serial.print("\t [1]: ");
-  Serial.print(buffVOA[1]);
-        Serial.print("\t [2]: ");
-  Serial.print(buffVOA[2]);
-        Serial.print("\t [3]: ");
-  Serial.print(buffVOA[3]);
-    tmpVOB = digitalRead(VOB);
-    if(buffVOA[3]==0 && buffVOA[2]==0 && buffVOA[1]==1 && buffVOA[0]==1 && tmpVOB==0 && oldVOB==0 ){
-      return 1;
-      }    
-    if(buffVOA[3]==0 && buffVOA[2]==0 && buffVOA[1]==1 && buffVOA[0]==1 && tmpVOB==1 && oldVOB==1){
-      return 2;
-      }
-
-
-    if(millis()-time<=200){
-      return 0;
-      }  
-   
-   oldVOB = tmpVOB;   
-    for(i=3; i>=0; i--){
-      x=i-1;
-      if(i>0){
-        buffVOA[i]= buffVOA[x];
-        }
-      if(i==0){
-        buffVOA[0]=digitalRead(VOA);
-        }
+  while (tmpdirection == -1){                                         //Warten auf Interrupt
+    if (millis()-time>=400){                                          //Timeout
+       return -1;
       }
     }
+  detachPinChangeInterrupt(VOA);                                      //Interrupt VOA deaktivieren
+  if  (tmpdirection == 1){                            
+   return 1;
+   } 
+  else if(tmpdirection == 2){
+   return 2;
+   } 
+  else{
+  
+   } 
+}      
+
+  
+//********************************************************************************************************************************************************************************
+//ISR Drehrichtung ermitteln   
+//********************************************************************************************************************************************************************************
+
+void ISR_rotating_direction(){
+  int ReadVOB = digitalRead(VOB);                                      // Auswertung Zustand VOB
+  if (ReadVOB ==0) {
+    tmpdirection = 1;
+    return;
+    }
+  else if (ReadVOB == 1){
+    tmpdirection = 2;
+    return;    
+    }
+  else {
+    tmpdirection = -1;
+    return;   
   }
+  return;
+}
+

@@ -42,10 +42,10 @@
  //Variablen
  char selected = '*';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
- int Speed = 100;
+ int Speed = 10;
  unsigned long starttime;
  unsigned long stoptime;
- 
+ int tmpdirection = -1;
  bool drivefor = false;
  bool driveback = false;
  bool brake = false;
