@@ -41,16 +41,14 @@
  
  //Variablen
  char selected = '*';
+ char enterKey = 'A';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
  int Speed = 10;
  unsigned long starttime;
  unsigned long stoptime;
  int tmpdirection = -1;
- bool drivefor = false;
- bool driveback = false;
- bool brake = false;
- bool roll = false;
- 
+ int ret = 100;
+
  
  
  //Tastatur
@@ -103,40 +101,50 @@ void setup() {
 }
 
 void loop() {
-  battstate = battservice(1);
-
-  Serial.print("\t Dreh: ");
-  Serial.print(rotating_direction());
-
   
-//  lcd.setCursor(0,1);
-//  lcd.print("Speed:    rpm     ");
-//  lcd.setCursor(7,1);
-//  lcd.print(RotationSpeed());
-  lcd.setCursor(0,2);
-  lcd.print("Strom:       A     ");
-  lcd.setCursor(7,2);
-  lcd.print(RotationCurrent());
-  
- switch(selected) {
+  switch(selected) {
   case '*':
-//  lcd.clear();
+  
   lcd.setCursor(0,0);
-  lcd.print("Fahren:             ");
+  lcd.print("drive:              ");
+  lcd.setCursor(0,1);
+  lcd.print("                    ");
+  lcd.setCursor(0,2);
+  lcd.print("                    ");
   lcd.setCursor(0,3);
-  lcd.print("Einstellungen #     ");
+  lcd.print("Setup press #       ");
+  
   break;
   
   case '#':
-//  lcd.clear();
   lcd.setCursor(0,0);
-  lcd.print("Einstellungen:             ");
+  lcd.print("Setup:              ");
+  lcd.setCursor(0,2);
+  lcd.print("Enter Setup press D ");
   lcd.setCursor(0,3);
-  lcd.print("Fahren *            ");
+  lcd.print("drive press *       ");
+  Serial.println("\t enterKey: ");
+  Serial.println(enterKey);
+  enterKey = customKeypad.getKey();
+  Serial.println("\t enterKey: ");
+  Serial.println(enterKey);
+  if(enterKey=='D'){
+    setupMenu();
+    }
   break;
   } 
-
+char oldselected = selected;
 selected = customKeypad.getKey();
+ Serial.println("\t selected: ");
+ Serial.println(selected); 
+if(selected != 'A' && selected != 'B' && selected != 'C' && selected != 'D' && selected != '*' && selected != '#' && selected != '0' && selected != '1' && selected != '2' && selected != '3' && selected != '4' && selected != '5' && selected != '6' && selected != '7' && selected != '8' && selected != '9')
+ {
+ selected=oldselected;
+ }
+ Serial.println("\t selected: ");
+ Serial.println(selected); 
+  Serial.println("\t oldselected: ");
+ Serial.println(oldselected); 
 delay(200);
 Serial.print("\n"); // new line
   
