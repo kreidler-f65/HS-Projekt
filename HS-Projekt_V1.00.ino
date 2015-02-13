@@ -1,6 +1,6 @@
 #include <PinChangeInt.h>
 #include <EEPROM.h>
-#include <Wire.h> 
+#include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Keypad.h>
 
@@ -18,13 +18,13 @@
  const int TAST6 = 33;
  const int TAST7 = 35;
  const int TAST8 = 37;
- 
+
  const int VOB = 14;
  const int VOA = 15;
- 
+
  const int M_FORCE = 8;
  const int M_FORCE_control = 9;
- 
+
  const int SD_B = 7;
  const int IN_B = 6;
  const int SD_A = 5;
@@ -38,19 +38,22 @@
  const int Funk1 = 19;
  const int Funk3 = 18;
 
- 
+
  //Variablen
- char selected = '*';
- char enterKey = 'A';
- int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll 
+// char selected = '*';
+// char enterKey = 'A';
+ int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll
  int Speed = 10;
  unsigned long starttime;
  unsigned long stoptime;
  int tmpdirection = -1;
  int ret = 100;
+ int CountH = 1;
+ int maxMenuH=2;  
+ char Key;
 
- 
- 
+
+
  //Tastatur
 
 const byte ROWS = 4; //four rows
@@ -66,7 +69,7 @@ byte rowPins[ROWS] = {TAST1, TAST2, TAST3, TAST4}; //connect to the row pinouts 
 byte colPins[COLS] = {TAST5, TAST6, TAST7, TAST8}; //connect to the column pinouts of the keypad
 
 //initialize an instance of class NewKeypad
-Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
+Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
 
 //Display
@@ -77,16 +80,16 @@ LiquidCrystal_I2C lcd(0x3F,20,4);  // set the LCD address to 0x27 for a 20 chars
 
 
 void setup() {
-  
+
   pinMode(VOA,INPUT);
-  pinMode(VOB,INPUT); 
+  pinMode(VOB,INPUT);
   pinMode(SD_B,OUTPUT);
   pinMode(IN_B,OUTPUT);
   pinMode(SD_A,OUTPUT);
   pinMode(IN_A,OUTPUT);
   pinMode(M_FORCE_control,INPUT);
-  
-  lcd.init(); 
+
+  lcd.init();
   lcd.backlight();
   lcd.begin(20,4);
   lcd.clear();
@@ -98,71 +101,93 @@ void setup() {
   attachInterrupt(Funk4_int, EmergRoll, RISING);
   attachInterrupt(Funk1_int, EmergDrivFor, RISING);
   attachInterrupt(Funk2_int, EmergDrivBack, RISING);
+  
+  
+  
+
 }
 
 void loop() {
-   Serial.print("\t selected Vor: ");
- Serial.print(selected); 
   
-  switch(selected) {
-    
-  case '*':
+      if (CountH==0){
+      CountH=maxMenuH;
+      }
+    else if (CountH>maxMenuH){
+      CountH=1;
+      }
+//   Serial.print("\t Key Vor: ");
+// Serial.print(Key);
+   Key = customKeypad.getKey();
+    switch(Key){
+      case '*':
+        CountH--;
+        break;
+      case '#':
+        CountH++;
+        break;
+      default: break;
+      }
+
+  switch(CountH) {
+
+  case 1:
     lcd.setCursor(0,0);
-    lcd.print("drive:              ");
+    lcd.print("Drive:              ");
     lcd.setCursor(0,1);
     lcd.print("                    ");
     lcd.setCursor(0,2);
     lcd.print("                    ");
     lcd.setCursor(0,3);
-    lcd.print("Setup press #       ");
+    lcd.print("left: *    right: # ");
     break;
-  
-  case '#':
+
+  case 2:
     lcd.setCursor(0,0);
     lcd.print("Setup:              ");
     lcd.setCursor(0,2);
     lcd.print("Enter Setup press D ");
     lcd.setCursor(0,3);
-    lcd.print("drive press *       ");
-    Serial.print("\t enterKey: ");
-    Serial.print(enterKey);
-    enterKey = customKeypad.waitForKey();
-    Serial.print("\t enterKey: ");
-    Serial.print(enterKey);
-    if(enterKey=='D'){
+    lcd.print("left: *    right: # ");
+
+
+//    enterKey = customKeypad.waitForKey();
+//    Serial.print("\t enterKey: ");
+//    Serial.print(enterKey);
+    Serial.print("\t Key: ");
+    Serial.print(Key);
+    if(Key=='D'){
       setupMenu();
       }
-    if(enterKey=='*'){
-      selected = '*';
-      }
-//    if(customKeypad.getState()==PRESSED){
+//    if(enterKey=='*'){
+//      selected = '*';
+//      }
+////    if(customKeypad.getState()==PRESSED){
 //    while(customKeypad.getState()==PRESSED){
 //         Serial.println("\t Status: ");
 //    Serial.println(customKeypad.getState());
-//    } 
-    
+//    }
+
 //    }
 //    else{
 //      selected = enterKey;
 //      }
     break;
-  } 
-char oldselected = selected;
-//selected = customKeypad.waitForKey();
-
-selected = customKeypad.getKey();
-//  while(customKeypad.getState()==PRESSED){}
-Serial.println("\t selected: ");
-Serial.println(selected); 
-if(selected != '*' && selected != '#')
- {
- selected=oldselected;
- }
- Serial.print("\t selected: ");
- Serial.print(selected); 
-  Serial.print("\t oldselected: ");
- Serial.print(oldselected); 
+  }
+//char oldselected = selected;
+////selected = customKeypad.waitForKey();
+//
+//selected = customKeypad.getKey();
+////  while(customKeypad.getState()==PRESSED){}
+//Serial.println("\t selected: ");
+//Serial.println(selected);
+//if(selected != '*' && selected != '#')
+// {
+// selected=oldselected;
+// }
+// Serial.print("\t selected: ");
+// Serial.print(selected);
+//  Serial.print("\t oldselected: ");
+// Serial.print(oldselected);
 Serial.print("\n"); // new line
-
 
 }

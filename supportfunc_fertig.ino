@@ -2,7 +2,7 @@
 //Bestimmung von Vcc durch nachmessen von 2.5V Referenz
 //*******************************************************************************************************************************************************************************
 
-double  measuringVcc(){
+double measuringVcc(){
   double  Vcc;
   double  tmpVREF = analogRead(VREF);
   Vcc=(2480/tmpVREF)*1023;
@@ -11,9 +11,6 @@ double  measuringVcc(){
 //  Serial.print("\t Vcc: ");
 //  Serial.print(Vcc);
   return Vcc;
-
-  
-  
   }
 
 
