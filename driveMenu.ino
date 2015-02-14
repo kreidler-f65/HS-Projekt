@@ -17,8 +17,8 @@ void driveMenu (){
 //   Serial.print(tmpRPM);
 
 
-  int tmpMulti= RPMMULTI*CURRENTMULTI;
-  int setvalue = ((RPM*RPMMULTI)+(CURRENT*CURRENTMULTI))/(RPMMULTI*CURRENTMULTI);
+  int tmpMulti= RPMMULTI+CURRENTMULTI;
+  int setvalue = ((RPM*RPMMULTI)+(CURRENT*CURRENTMULTI))/(tmpMulti);
 
   int tmpRPM = RotationSpeed ();
    Serial.print("\t tmpRPM: ");
