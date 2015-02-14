@@ -59,14 +59,14 @@ int RotationSpeed (){
 //Rückgabe des aktuellen Stromes in 0-255 bei 0-5000mA
 //********************************************************************************************************************************************************************************
   
-double RotationCurrent (){
+int RotationCurrent (){
   double  Vcc = measuringVcc();
   double  mVperAmp = 185; 
   double  measuredvalue=0;
   double  ACSoffset= Vcc/2; 
   double  Voltage = 0;
   double Amps = 0;
-  double mAmps=0;
+  int mAmps=0;
   double  tmpValue = 0;
   int M_FORCE_control_old = digitalRead(M_FORCE_control);
   int tmpM_FORCE_control = digitalRead(M_FORCE_control);
@@ -93,7 +93,7 @@ double RotationCurrent (){
   Amps = ((Voltage - ACSoffset) / mVperAmp);                             //Strom ausrechnen
   Amps = abs(Amps);                                                     //Strom absolut wert
   Amps =  (int)(Amps*100)/100.0;                                   //Strom Runden 2 Nachkommastellen
-  mAmps= Amps*1000;                                                      //Strom in mA
+  mAmps= int (Amps*1000);                                                      //Strom in mA
   mAmps = min(mAmps,2000);                                                //Strom max 5000mA
   mAmps = map(mAmps,0,2000,0,255);
   

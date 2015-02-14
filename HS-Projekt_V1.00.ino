@@ -53,17 +53,17 @@ const int adrDIREKTION=7;
  //Variablen
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll
  int Speed = 1;
- long kSpeed = 0;
+ int kSpeed = 0;
  int tmpdirection = -1;
  int CountH = 1;
  int maxMenuH=2;  
  char Key;
  int MAXSPEED=0;
- int RPM=0;
- int RPMMULTI=0;
- int CURRENT=0;
- int CURRENTMULTI=0;
- int DIRECTION=0;
+ int RPM;
+ int RPMMULTI;
+ int CURRENT;
+ int CURRENTMULTI;
+ int DIRECTION;
 
 
  //Tastatur
@@ -147,10 +147,6 @@ void loop() {
   case 1:
     lcd.setCursor(0,0);
     lcd.print("Drive:              ");
-    lcd.setCursor(0,1);
-    lcd.print("                    ");
-    lcd.setCursor(0,2);
-    lcd.print("                    ");
     lcd.setCursor(0,3);
     lcd.print("left: *    right: # ");
     driveMenu();
@@ -159,6 +155,7 @@ void loop() {
   case 2:
     lcd.setCursor(0,0);
     lcd.print("Setup:              ");
+    battservice(1);
     lcd.setCursor(0,2);
     lcd.print("Enter Setup press D ");
     lcd.setCursor(0,3);
