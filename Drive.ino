@@ -6,19 +6,19 @@
 //********************************************************************************************************************************************************************************  
 
 void Drive (int DriveForSpeed){
-  if(DriveForSpeed=0){                   // 0 = Fahrzeug steht -> Bremsen
-    digitalWrite(SD_A, HIGH);            //Bremsen Maximal
-    digitalWrite(IN_A, LOW);
-    digitalWrite(IN_B, LOW);
-    digitalWrite(SD_B, HIGH);
+  int sort =rotating_direction();
+  DriveForSpeed = max(DriveForSpeed,MAXSPEED);
+    if(sort==-1){                   // 0 = Fahrzeug steht -> Bremsen
+    Break ();
     }
-  else if(DriveForSpeed>0){              // Wert > 0 = Fahrzeug fährt mit Wert vorwärts
+  else if((sort==1 && DIRECTION==1)||(sort==2 && DIRECTION==2)){              // Wert > 0 = Fahrzeug fährt mit Wert vorwärts
     digitalWrite(SD_B, HIGH);
     digitalWrite(IN_B, LOW);
     digitalWrite(IN_A, HIGH);
     analogWrite(SD_A, DriveForSpeed);
     }
-  else if (DriveForSpeed<0){            // Wert < 0 = Fahrzeug fährt mit Wert rückwerts
+  else if ((sort==1 && DIRECTION==2)||(sort==2 && DIRECTION==1)){            // Wert < 0 = Fahrzeug fährt mit Wert rückwerts
+    map(DriveForSpeed,0,255,0,127);          //Halbe Geschwindigkeit bei Rückwärts fahren
     digitalWrite(SD_A, HIGH);
     digitalWrite(IN_A, LOW);
     digitalWrite(IN_B, HIGH);

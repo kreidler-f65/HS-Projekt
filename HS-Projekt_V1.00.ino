@@ -39,19 +39,31 @@
  const int Funk3 = 18;
 
 
+//Adressen EEprom
+
+const int adrPW = 0; //unsigned int daher Adresse 0 und 1
+const int adrMAXSPEED =2;
+const int adrRPM =3;
+const int adrRPMMULTI =4;
+const int adrCURRENT =5;
+const int adrCURRENTMULTI =6;
+const int adrDIREKTION=7;
+
+
  //Variablen
-// char selected = '*';
-// char enterKey = 'A';
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll
- int Speed = 10;
- unsigned long starttime;
- unsigned long stoptime;
+ int Speed = 0;
+ long kSpeed = 0;
  int tmpdirection = -1;
- int ret = 100;
  int CountH = 1;
  int maxMenuH=2;  
  char Key;
-
+ int MAXSPEED=0;
+ int RPM=0;
+ int RPMMULTI=0;
+ int CURRENT=0;
+ int CURRENTMULTI=0;
+ int DIRECTION=0;
 
 
  //Tastatur
@@ -95,16 +107,18 @@ void setup() {
   lcd.clear();
 //bootscreen(3);              //Übergabe der Anzeigezeit in sek.
   Serial.begin(9600);
-  pinMode(M_FORCE,OUTPUT);
-  analogWrite(M_FORCE, Speed);
   attachInterrupt(Funk3_int, EmergBreak, RISING);
   attachInterrupt(Funk4_int, EmergRoll, RISING);
   attachInterrupt(Funk1_int, EmergDrivFor, RISING);
   attachInterrupt(Funk2_int, EmergDrivBack, RISING);
+  analogWrite(M_FORCE,0);
   
-  
-  
-
+  MAXSPEED=EEPROM.read(adrMAXSPEED);                                        //Einstellungnen aus EEPROM laden
+  RPM=EEPROM.read(adrRPM);
+  RPMMULTI=EEPROM.read(adrRPMMULTI);
+  CURRENT=EEPROM.read(adrCURRENT);
+  CURRENTMULTI=EEPROM.read(adrCURRENTMULTI);
+  DIRECTION=EEPROM.read(adrDIREKTION); 
 }
 
 void loop() {
@@ -139,6 +153,7 @@ void loop() {
     lcd.print("                    ");
     lcd.setCursor(0,3);
     lcd.print("left: *    right: # ");
+    driveMenu();
     break;
 
   case 2:
@@ -148,46 +163,15 @@ void loop() {
     lcd.print("Enter Setup press D ");
     lcd.setCursor(0,3);
     lcd.print("left: *    right: # ");
-
-
-//    enterKey = customKeypad.waitForKey();
-//    Serial.print("\t enterKey: ");
-//    Serial.print(enterKey);
     Serial.print("\t Key: ");
     Serial.print(Key);
     if(Key=='D'){
       setupMenu();
       }
-//    if(enterKey=='*'){
-//      selected = '*';
-//      }
-////    if(customKeypad.getState()==PRESSED){
-//    while(customKeypad.getState()==PRESSED){
-//         Serial.println("\t Status: ");
-//    Serial.println(customKeypad.getState());
-//    }
 
-//    }
-//    else{
-//      selected = enterKey;
-//      }
     break;
   }
-//char oldselected = selected;
-////selected = customKeypad.waitForKey();
-//
-//selected = customKeypad.getKey();
-////  while(customKeypad.getState()==PRESSED){}
-//Serial.println("\t selected: ");
-//Serial.println(selected);
-//if(selected != '*' && selected != '#')
-// {
-// selected=oldselected;
-// }
-// Serial.print("\t selected: ");
-// Serial.print(selected);
-//  Serial.print("\t oldselected: ");
-// Serial.print(oldselected);
+
 Serial.print("\n"); // new line
 
 }
