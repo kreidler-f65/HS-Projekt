@@ -224,7 +224,7 @@ void setupMenu(){
           tmpKey = customKeypad.waitForKey();
           if(tmpKey=='A'){            //Password in EEprom speichen
 
-            eepromWriteunsignedInt(adrMAXSPEED, tmpRPMbyte);
+            eepromWriteunsignedInt(adrRPM, tmpRPMbyte);
             lcd.setCursor(0,1);
             lcd.print("rpm gespeichert     ");
             lcd.setCursor(0,2);
@@ -260,7 +260,7 @@ void setupMenu(){
           unsigned int tmpRPMMULTI=0;
           byte tmpRPMMULTIbyte;
           lcd.setCursor(0,1);
-          lcd.print("*: 0-255 eingeben ");
+          lcd.print("*: 0-10 eingeben    ");
           lcd.setCursor(0,2);
           lcd.print("multi: ");
           lcd.setCursor(0,3);
@@ -268,8 +268,8 @@ void setupMenu(){
           lcd.setCursor(5,3);
           lcd.print(RPMMULTI);
           tmpRPMMULTI = readNumber('D', 8, 2);
-          if(tmpRPMMULTI>255){
-              tmpRPMMULTI=255;
+          if(tmpRPMMULTI>10){
+              tmpRPMMULTI=10;
               }
           tmpRPMMULTIbyte=lowByte(tmpRPMMULTI);
           lcd.setCursor(0,1);
@@ -283,7 +283,7 @@ void setupMenu(){
           tmpKey = customKeypad.waitForKey();
           if(tmpKey=='A'){            //Password in EEprom speichen
 
-            eepromWriteunsignedInt(adrMAXSPEED, tmpRPMMULTIbyte);
+            eepromWriteunsignedInt(adrRPMMULTI, tmpRPMMULTIbyte);
             lcd.setCursor(0,1);
             lcd.print("multi gespeichert   ");
             lcd.setCursor(0,2);
@@ -341,7 +341,7 @@ void setupMenu(){
           tmpKey = customKeypad.waitForKey();
           if(tmpKey=='A'){            //Password in EEprom speichen
 
-            eepromWriteunsignedInt(adrMAXSPEED, tmpCURRENTbyte);
+            eepromWriteunsignedInt(adrCURRENT, tmpCURRENTbyte);
             lcd.setCursor(0,1);
             lcd.print("I gespeichert");
             lcd.setCursor(0,2);
@@ -377,7 +377,7 @@ void setupMenu(){
           unsigned int tmpCURRENTMULTI=0;
           byte tmpCURRENTMULTIbyte;
           lcd.setCursor(0,1);
-          lcd.print("I*: 0-255 eingeben   ");
+          lcd.print("I*: 0-10 eingeben ");
           lcd.setCursor(0,2);
           lcd.print("I*: ");
           lcd.setCursor(0,3);
@@ -385,12 +385,12 @@ void setupMenu(){
           lcd.setCursor(5,3);
           lcd.print(CURRENTMULTI);
           tmpCURRENTMULTI = readNumber('D', 4, 2);
-          if(tmpCURRENTMULTI>255){
-              tmpCURRENTMULTI=255;
+          if(tmpCURRENTMULTI>10){
+              tmpCURRENTMULTI=10;
               }
           tmpCURRENTMULTIbyte=lowByte(tmpCURRENTMULTI);
           lcd.setCursor(0,1);
-          lcd.print("I*:        OK?   ");          
+          lcd.print("I*:        OK?      ");          
           lcd.setCursor(4,1);
           lcd.print(tmpCURRENTMULTIbyte);
           lcd.setCursor(0,2);
@@ -400,9 +400,9 @@ void setupMenu(){
           tmpKey = customKeypad.waitForKey();
           if(tmpKey=='A'){            //Password in EEprom speichen
 
-            eepromWriteunsignedInt(adrMAXSPEED, tmpCURRENTMULTIbyte);
+            eepromWriteunsignedInt(adrCURRENTMULTI, tmpCURRENTMULTIbyte);
             lcd.setCursor(0,1);
-            lcd.print("I gespeichert");
+            lcd.print("I gespeichert       ");
             lcd.setCursor(0,2);
             lcd.print("                    ");
             lcd.setCursor(0,3);
@@ -459,7 +459,7 @@ void setupMenu(){
           tmpKey = customKeypad.waitForKey();
           if(tmpKey=='A'){            //Password in EEprom speichen
 
-            eepromWriteunsignedInt(adrMAXSPEED, tmpDIRECTIONbyte);
+            eepromWriteunsignedInt(adrDIREKTION, tmpDIRECTIONbyte);
             lcd.setCursor(0,1);
             lcd.print("Direction saved     ");
             lcd.setCursor(0,2);

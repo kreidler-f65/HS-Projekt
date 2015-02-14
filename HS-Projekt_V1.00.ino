@@ -52,7 +52,7 @@ const int adrDIREKTION=7;
 
  //Variablen
  int battstate = 0; //Batteriestatus 0=Leer, 1=Laden, 2=Voll
- int Speed = 0;
+ int Speed = 1;
  long kSpeed = 0;
  int tmpdirection = -1;
  int CountH = 1;
@@ -100,7 +100,7 @@ void setup() {
   pinMode(SD_A,OUTPUT);
   pinMode(IN_A,OUTPUT);
   pinMode(M_FORCE_control,INPUT);
-
+  pinMode(M_FORCE,OUTPUT);
   lcd.init();
   lcd.backlight();
   lcd.begin(20,4);
@@ -111,7 +111,7 @@ void setup() {
   attachInterrupt(Funk4_int, EmergRoll, RISING);
   attachInterrupt(Funk1_int, EmergDrivFor, RISING);
   attachInterrupt(Funk2_int, EmergDrivBack, RISING);
-  analogWrite(M_FORCE,0);
+  analogWrite(M_FORCE,Speed);
   
   MAXSPEED=EEPROM.read(adrMAXSPEED);                                        //Einstellungnen aus EEPROM laden
   RPM=EEPROM.read(adrRPM);

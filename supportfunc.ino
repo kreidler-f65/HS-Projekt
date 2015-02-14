@@ -46,7 +46,7 @@ int battservice (int tmpRow){
 int RotationSpeed (){
   unsigned long RotateTime = 0;
   digitalWrite(M_FORCE, LOW);                                          //definierte Kraft auf dem Motor
-  RotateTime = (pulseIn(VOB, HIGH) + pulseIn(VOB, LOW))*120;
+  RotateTime = (pulseIn(VOB, HIGH,50000) + pulseIn(VOB, LOW,50000))*120;
   analogWrite(M_FORCE, Speed);                                         //Rückschalten auf eingestellte Kraft
 
   unsigned long rpm = (1/(RotateTime*0.000001))*60;                    //berechnung Drehzahl in Umdrehungen pro Minute
@@ -59,22 +59,23 @@ int RotationSpeed (){
 //Rückgabe des aktuellen Stromes in 0-255 bei 0-5000mA
 //********************************************************************************************************************************************************************************
   
-int RotationCurrent (){
+double RotationCurrent (){
   double  Vcc = measuringVcc();
   double  mVperAmp = 185; 
   double  measuredvalue=0;
   double  ACSoffset= Vcc/2; 
   double  Voltage = 0;
   double Amps = 0;
-  int mAmps=0;
+  double mAmps=0;
   double  tmpValue = 0;
-  
   int M_FORCE_control_old = digitalRead(M_FORCE_control);
-  while(1){                                                                  //Warten auf steigende Flanke
-    if(M_FORCE_control_old==0 && digitalRead(M_FORCE_control)==1){
+  int tmpM_FORCE_control = digitalRead(M_FORCE_control);
+  while(1){    //Warten auf steigende Flanke
+    if(M_FORCE_control_old==0 && tmpM_FORCE_control==1){
       break;
-      }    
-    M_FORCE_control_old = digitalRead(M_FORCE_control);
+      } 
+    M_FORCE_control_old = tmpM_FORCE_control;
+    tmpM_FORCE_control = digitalRead(M_FORCE_control);
     }
   int i;
   int x;
@@ -86,20 +87,22 @@ int RotationCurrent (){
     analogWrite(M_FORCE, Speed);
     delay(10);
   }
-  measuredvalue=(tmpValue/100)+2;                                        //Mittelwert bestimmen   +2 Digits korrektur
+  
+  measuredvalue=(tmpValue/100)+4.5;                                       //Mittelwert bestimmen   +14 Digits korrektur
   Voltage = measuredvalue * Vcc / 1023 ;                                 //gemessene Spannung bestimmen
   Amps = ((Voltage - ACSoffset) / mVperAmp);                             //Strom ausrechnen
-  abs(Amps);                                                             //Strom absolut wert
-  mAmps= (int)(Amps*100+0.5)/100.0;                                      //Strom in mA
-  mAmps =max(mAmps,5000);                                                //Strom max 5000mA
-  map(mAmps,0,255,0,5000);
+  Amps = abs(Amps);                                                     //Strom absolut wert
+  Amps =  (int)(Amps*100)/100.0;                                   //Strom Runden 2 Nachkommastellen
+  mAmps= Amps*1000;                                                      //Strom in mA
+  mAmps = min(mAmps,2000);                                                //Strom max 5000mA
+  mAmps = map(mAmps,0,2000,0,255);
   
 //  Serial.print("\t mVolt: ");
 //  Serial.print(Voltage);
 //  Serial.print("\t messuredValue: ");
 //  Serial.print(measuredvalue);
-//  Serial.print("\t Amps: ");
-//  Serial.print(Amps);
+//  Serial.print("\t Vcc: ");
+//  Serial.print(Vcc);
   return mAmps;
 }
 
