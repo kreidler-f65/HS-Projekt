@@ -137,23 +137,31 @@ void bootscreen (int showtime){                               //Übergabe der An
 
 int rotating_direction(){
   unsigned long time = millis();
-  tmpdirection = -1;
+  tmpdirection = 0;
+  directioncount=0;
+  messdirection=0;
   attachPinChangeInterrupt(VOA, ISR_rotating_direction, RISING);      //Interrupt VOA aktivieren
   
-  while (tmpdirection == -1){                                         //Warten auf Interrupt
-    if (millis()-time>=300){                                          //Timeout
+  while (tmpdirection == 0 && directioncount<5){                                         //Warten auf Interrupt
+    if (millis()-time>=450){                                          //Timeout
        return -1;
       }
+    
     }
   detachPinChangeInterrupt(VOA);                                      //Interrupt VOA deaktivieren
-  if  (tmpdirection == 1){                            
+  if(tmpdirection==-1){
+    return-1;
+    }
+  messdirection=messdirection/5;
+  
+  if  (messdirection>=1 && messdirection<1.5){                            
    return 1;
    } 
-  else if(tmpdirection == 2){
+  else if(messdirection<=2 &&messdirection>1.5){
    return 2;
    } 
   else{
-  
+   return -1;
    } 
 }      
 
@@ -165,18 +173,18 @@ int rotating_direction(){
 void ISR_rotating_direction(){
   int ReadVOB = digitalRead(VOB);                                      // Auswertung Zustand VOB
   if (ReadVOB ==0) {
-    tmpdirection = 1;
-    return;
+    messdirection = messdirection+1;
+    
     }
   else if (ReadVOB == 1){
-    tmpdirection = 2;
-    return;    
+    messdirection = messdirection+2;
+        
     }
   else {
     tmpdirection = -1;
-    return;   
+     
   }
-  return;
+directioncount++;
 }
 
 //********************************************************************************************************************************************************************************

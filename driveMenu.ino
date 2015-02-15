@@ -1,12 +1,12 @@
 void driveMenu (){
-  int battstate = battservice(1);
-  if(battstate==0){
-    Break();
-    lcd.setCursor(0,2);
-    lcd.print("Batterie laden!     ");
-    delay(1000);
-    return;
-    }
+//  int battstate = battservice(1);
+//  if(battstate==0){
+//    Break();
+//    lcd.setCursor(0,2);
+//    lcd.print("Batterie laden!     ");
+//    delay(1000);
+//    return;
+//    }
 //   Serial.print("\t tmpRPM: ");
 //   Serial.print(tmpRPM);
 //   Serial.print("\t tmpRPM: ");
@@ -77,6 +77,16 @@ void driveMenu (){
    Serial.print(kSpeed);
    Serial.print("\t Speed: ");
    Serial.print(Speed);
+   
+   int DriveSpeed = kSpeed-Speed+1;
+   DriveSpeed = max(DriveSpeed,0);
+   DriveSpeed= map(DriveSpeed,setvalue,0,0,255);
+   Serial.print("\t DriveSpeed: ");
+   Serial.print(DriveSpeed);
+   Drive(DriveSpeed);
+    
+   
+   
   return;
   }
 

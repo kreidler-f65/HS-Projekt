@@ -64,6 +64,9 @@ const int adrDIREKTION=7;
  int CURRENT;
  int CURRENTMULTI;
  int DIRECTION;
+ int directioncount=0;
+ float messdirection=0;
+ boolean Brakeaktive=false; 
 
 
  //Tastatur
