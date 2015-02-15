@@ -112,9 +112,9 @@ int RotationCurrent (){
 //********************************************************************************************************************************************************************************
 void bootscreen (int showtime){                               //Übergabe der Anzeigezeit in sek.
   lcd.setCursor(0,0);
-  lcd.print("Handtrainer         ");
+  lcd.print("Handtrainer Version:");
   lcd.setCursor(0,1);
-  lcd.print("Version 1.00        ");
+  lcd.print(" SW:1.00   HW:1.10  ");
   lcd.setCursor(0,2);
   lcd.print("Manuel Rude         "); 
   lcd.setCursor(19,3);
