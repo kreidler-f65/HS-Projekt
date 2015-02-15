@@ -142,7 +142,7 @@ int rotating_direction(){
   messdirection=0;
   attachPinChangeInterrupt(VOA, ISR_rotating_direction, RISING);      //Interrupt VOA aktivieren
   
-  while (tmpdirection == 0 && directioncount<5){                                         //Warten auf Interrupt
+  while (tmpdirection == 0 && directioncount<10){                                         //Warten auf Interrupt
     if (millis()-time>=450){                                          //Timeout
        return -1;
       }
@@ -152,7 +152,7 @@ int rotating_direction(){
   if(tmpdirection==-1){
     return-1;
     }
-  messdirection=messdirection/5;
+  messdirection=messdirection/10;
   
   if  (messdirection>=1 && messdirection<1.5){                            
    return 1;
@@ -227,10 +227,10 @@ unsigned int readNumber(char enter, int Col, int Row){
   while(1){
     
     readKey = customKeypad.getKey();
-       Serial.println("\t readKey: ");
-       Serial.print(readKey);
-       Serial.println("\t number: ");
-       Serial.print(number);
+       //  Serial.println("\t readKey: ");
+       //  Serial.print(readKey);
+       //  Serial.println("\t number: ");
+       //  Serial.print(number);
     
     if((readKey == '0') || (readKey == '1')|| (readKey == '2')|| (readKey == '3')|| (readKey == '4')|| (readKey == '5')|| (readKey == '6')|| (readKey == '7')|| (readKey == '8')|| (readKey == '9')){                                   //erfassung Zahl                       
       lcd.setCursor(Col,Row);

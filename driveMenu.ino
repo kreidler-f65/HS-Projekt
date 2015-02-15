@@ -1,13 +1,13 @@
 void driveMenu (){
-//  int battstate = battservice(1);
-//  if(battstate==0){
-//    Break();
-//    lcd.setCursor(0,2);
-//    lcd.print("Batterie laden!     ");
-//    delay(1000);
-//    return;
-//    }
-//   Serial.print("\t tmpRPM: ");
+  int battstate = battservice(1);
+  if(battstate==0){
+    Break();
+    lcd.setCursor(0,2);
+    lcd.print("Batterie laden!     ");
+    delay(1000);
+    return;
+    }
+//   //  Serial.print("\t tmpRPM: ");
 //   Serial.print(tmpRPM);
 //   Serial.print("\t tmpRPM: ");
 //   Serial.print(tmpRPM);
@@ -21,16 +21,16 @@ void driveMenu (){
   int setvalue = ((RPM*RPMMULTI)+(CURRENT*CURRENTMULTI))/(tmpMulti);
 
   int tmpRPM = RotationSpeed ();
-   Serial.print("\t tmpRPM: ");
-   Serial.print(tmpRPM);
+   //  Serial.print("\t tmpRPM: ");
+   //  Serial.print(tmpRPM);
   int tmpCurrent = RotationCurrent();
-   Serial.print("\t tmpCurrent: ");
-   Serial.print(tmpCurrent);
+   //  Serial.print("\t tmpCurrent: ");
+   //  Serial.print(tmpCurrent);
   int actualvalue = ((tmpRPM*RPMMULTI)+(tmpCurrent*CURRENTMULTI))/tmpMulti;
-   Serial.print("\t setvalue: ");
-   Serial.print(setvalue);
-   Serial.print("\t actualvalue: ");
-   Serial.print(actualvalue);  
+   //  Serial.print("\t setvalue: ");
+   //  Serial.print(setvalue);
+   //  Serial.print("\t actualvalue: ");
+   //  Serial.print(actualvalue);  
     lcd.setCursor(0,2);
     lcd.print("RPM:        I:      ");
     lcd.setCursor(5,2);  
@@ -73,16 +73,16 @@ void driveMenu (){
     analogWrite(M_FORCE,Speed);
     kSpeed = setvalue-actualvalue;
     }
-   Serial.print("\t kSpeed: ");
-   Serial.print(kSpeed);
-   Serial.print("\t Speed: ");
-   Serial.print(Speed);
+   //  Serial.print("\t kSpeed: ");
+   //  Serial.print(kSpeed);
+   //  Serial.print("\t Speed: ");
+   //  Serial.print(Speed);
    
    int DriveSpeed = kSpeed-Speed+1;
    DriveSpeed = max(DriveSpeed,0);
    DriveSpeed= map(DriveSpeed,setvalue,0,0,255);
-   Serial.print("\t DriveSpeed: ");
-   Serial.print(DriveSpeed);
+   //  Serial.print("\t DriveSpeed: ");
+   //  Serial.print(DriveSpeed);
    Drive(DriveSpeed);
     
    

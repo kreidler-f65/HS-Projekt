@@ -8,21 +8,19 @@ void EmergDrivFor (){
   digitalWrite(IN_B, LOW);
   digitalWrite(IN_A, HIGH);
   digitalWrite(SD_A, HIGH);
-//  pinMode(Funk1,INPUT);
-//  while(digitalRead(Funk1_int)==HIGH){     //Taste gedrückt und gehalten -> Vorwärtsfahren
-//    }
-//  int i;
-//  for(i=0;i<=65000;i++){            //Austrudeln
-//    digitalWrite(SD_A, LOW);              
-//    digitalWrite(IN_A, LOW);
-//    digitalWrite(IN_B, LOW);
-//    digitalWrite(SD_B, LOW);
-//    }
-//  digitalWrite(SD_A, HIGH);            //Bremsen Maximal
-//  digitalWrite(IN_A, LOW);
-//  digitalWrite(IN_B, LOW);
-//  digitalWrite(SD_B, HIGH);
-
+  while(digitalRead(Funk1)==HIGH){     //Taste gedrückt und gehalten -> Vorwärtsfahren
+    }
+  int i;
+  for(i=0;i<=6000;i++){            //Austrudeln
+    digitalWrite(SD_A, LOW);              
+    digitalWrite(IN_A, LOW);
+    digitalWrite(IN_B, LOW);
+    digitalWrite(SD_B, LOW);
+    }
+  digitalWrite(SD_A, HIGH);            //Bremsen Maximal
+  digitalWrite(IN_A, LOW);
+  digitalWrite(IN_B, LOW);
+  digitalWrite(SD_B, HIGH);
   }
 
 //********************************************************************************************************************************************************************************
@@ -35,11 +33,10 @@ void EmergDrivBack (){
   digitalWrite(IN_A, LOW);
   digitalWrite(IN_B, HIGH);
   digitalWrite(SD_B, HIGH);
-//  pinMode(Funk2,INPUT);
-//  while(digitalRead(Funk2)==HIGH){     //Taste gedrückt und gehalten -> Rückwärtsfahren
-//    }
+  while(digitalRead(Funk2)==HIGH){     //Taste gedrückt und gehalten -> Rückwärtsfahren
+    }
   int i;
-  for(i=0;i<=65000;i++){            //Austrudeln
+  for(i=0;i<=6000;i++){            //Austrudeln
     digitalWrite(SD_A, LOW);              
     digitalWrite(IN_A, LOW);
     digitalWrite(IN_B, LOW);
@@ -58,7 +55,7 @@ void EmergDrivBack (){
 void EmergBreak (){                       
   
   int i;
-  for(i=0;i<=65000;i++){            //Austrudeln
+  for(i=0;i<=6000;i++){            //Austrudeln
     digitalWrite(SD_A, LOW);              
     digitalWrite(IN_A, LOW);
     digitalWrite(IN_B, LOW);
@@ -68,9 +65,8 @@ void EmergBreak (){
   digitalWrite(IN_A, LOW);
   digitalWrite(IN_B, LOW);
   digitalWrite(SD_B, HIGH);
-//  pinMode(Funk3,INPUT);
-//  while(digitalRead(Funk3)==HIGH){     //Taste gedrückt und gehalten -> Bremsen
-//    }
+  while(digitalRead(Funk3)==HIGH){     //Taste gedrückt und gehalten -> Bremsen
+    }
 
   }
 
@@ -83,9 +79,8 @@ void EmergRoll (){
   digitalWrite(IN_A, LOW);
   digitalWrite(IN_B, LOW);
   digitalWrite(SD_B, LOW);
-//  pinMode(Funk4,INPUT);
-//  while(digitalRead(Funk4)==HIGH){     //Taste gedrückt und gehalten -> Rollen
-//    }
+  while(digitalRead(Funk4)==HIGH){     //Taste gedrückt und gehalten -> Rollen
+    }
   digitalWrite(SD_A, HIGH);            //Bremsen Maximal
   digitalWrite(IN_A, LOW);
   digitalWrite(IN_B, LOW);

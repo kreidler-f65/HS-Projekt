@@ -7,8 +7,8 @@
 
 void Drive (int DriveForSpeed){
   int sort =rotating_direction();
-  Serial.print("\t rotating_direction: ");
-  Serial.print(sort);
+  //  //  Serial.print("\t rotating_direction: ");
+  //  //  Serial.print(sort);
   DriveForSpeed = min(DriveForSpeed,MAXSPEED);
     if(sort==-1){                   // 0 = Fahrzeug steht -> Bremsen
     Break ();
@@ -18,8 +18,8 @@ void Drive (int DriveForSpeed){
     digitalWrite(IN_B, LOW);
     digitalWrite(IN_A, HIGH);
     analogWrite(SD_A, DriveForSpeed);
-  Serial.print("\t FOR: ");
-  Serial.print(DriveForSpeed);
+  //  //  Serial.print("\t FOR: ");
+  //  Serial.print(DriveForSpeed);
     Brakeaktive=false;
     }
   else if ((sort==1 && DIRECTION==2)||(sort==2 && DIRECTION==1)){            // Wert < 0 = Fahrzeug fährt mit Wert rückwerts
@@ -28,8 +28,8 @@ void Drive (int DriveForSpeed){
     digitalWrite(IN_A, LOW);
     digitalWrite(IN_B, HIGH);
     analogWrite(SD_B, DriveForSpeed);
-     Serial.print("\t Back: ");
-  Serial.print(DriveForSpeed);
+     //  Serial.print("\t Back: ");
+  //  Serial.print(DriveForSpeed);
     Brakeaktive=false;
     }
   return;

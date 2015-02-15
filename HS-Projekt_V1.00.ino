@@ -35,7 +35,7 @@
  const int Funk3_int = 5;
  const int Funk4 = 2;
  const int Funk2 = 3;
- const int Funk1 = 19;
+ const int Funk1 = 22;
  const int Funk3 = 18;
 
 
@@ -104,12 +104,10 @@ void setup() {
   pinMode(IN_A,OUTPUT);
   pinMode(M_FORCE_control,INPUT);
   pinMode(M_FORCE,OUTPUT);
-  lcd.init();
-  lcd.backlight();
-  lcd.begin(20,4);
-  lcd.clear();
-//bootscreen(3);              //Übergabe der Anzeigezeit in sek.
-  Serial.begin(9600);
+  pinMode(Funk1,INPUT);
+  pinMode(Funk2,INPUT);
+  pinMode(Funk3,INPUT);
+  pinMode(Funk4,INPUT);
   attachInterrupt(Funk3_int, EmergBreak, RISING);
   attachInterrupt(Funk4_int, EmergRoll, RISING);
   attachInterrupt(Funk1_int, EmergDrivFor, RISING);
@@ -122,6 +120,15 @@ void setup() {
   CURRENT=EEPROM.read(adrCURRENT);
   CURRENTMULTI=EEPROM.read(adrCURRENTMULTI);
   DIRECTION=EEPROM.read(adrDIREKTION); 
+  
+  lcd.init();
+  lcd.backlight();
+  lcd.begin(20,4);
+  lcd.clear();
+  bootscreen(3);              //Übergabe der Anzeigezeit in sek.
+//  Serial.begin(9600);
+  lcd.clear();
+
 }
 
 void loop() {
@@ -172,6 +179,6 @@ void loop() {
     break;
   }
 
-Serial.print("\n"); // new line
+//Serial.print("\n"); // new line
 
 }
