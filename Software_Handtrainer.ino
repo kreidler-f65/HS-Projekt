@@ -67,7 +67,7 @@ const int adrDIREKTION=7;
  int directioncount=0;
  float messdirection=0;
  boolean Brakeaktive=false; 
-
+int sortold=0;
 
  //Tastatur
 
@@ -126,7 +126,7 @@ void setup() {
   lcd.begin(20,4);
   lcd.clear();
   bootscreen(3);              //Übergabe der Anzeigezeit in sek.
-//  Serial.begin(9600);
+  Serial.begin(9600);
   lcd.clear();
 
 }
@@ -179,6 +179,6 @@ void loop() {
     break;
   }
 
-//Serial.print("\n"); // new line
+Serial.print("\n"); // new line
 
 }

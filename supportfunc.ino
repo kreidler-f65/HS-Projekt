@@ -70,18 +70,21 @@ int RotationCurrent (){
   double  tmpValue = 0;
   int M_FORCE_control_old = digitalRead(M_FORCE_control);
   int tmpM_FORCE_control = digitalRead(M_FORCE_control);
-  while(1){    //Warten auf steigende Flanke
-    if(M_FORCE_control_old==0 && tmpM_FORCE_control==1){
-      break;
-      } 
-    M_FORCE_control_old = tmpM_FORCE_control;
-    tmpM_FORCE_control = digitalRead(M_FORCE_control);
-    }
   int i;
   int x;
+
   for(x=0; x<=4; x++){
+    
+      while(1){    //Warten auf steigende Flanke
+        if(M_FORCE_control_old==0 && tmpM_FORCE_control==1){
+          break;
+          } 
+        M_FORCE_control_old = tmpM_FORCE_control;
+        tmpM_FORCE_control = digitalRead(M_FORCE_control);
+        }
+        
     digitalWrite(M_FORCE, HIGH); 
-    for(i = 0; i<=19; i++){                                              //100 Messwerte bestimmen und aufsummieren
+    for(i = 0; i<=19; i++){                                              //19 Messwerte bestimmen und aufsummieren
       tmpValue = tmpValue + analogRead(STROM_MESS);
       }
     analogWrite(M_FORCE, Speed);
@@ -136,6 +139,7 @@ void bootscreen (int showtime){                               //Übergabe der An
 //********************************************************************************************************************************************************************************
 
 int rotating_direction(){
+  newmeasure:
   unsigned long time = millis();
   tmpdirection = 0;
   directioncount=0;
@@ -154,14 +158,14 @@ int rotating_direction(){
     }
   messdirection=messdirection/10;
   
-  if  (messdirection>=1 && messdirection<1.5){                            
+  if  (messdirection>=1 && messdirection<1.3){                            
    return 1;
    } 
-  else if(messdirection<=2 &&messdirection>1.5){
+  else if(messdirection<=2 &&messdirection>1.7){
    return 2;
    } 
   else{
-   return -1;
+   goto newmeasure;
    } 
 }      
 
